@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>verifyEmail</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/css/all.min.css"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.11.2/js/all.min.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style>
+      .none {
+        display: none;
+      }
+      .show {
+        display: block;
+      }
+      .lds-dual-ring {
+        display: inline-block;
+        width: 80px;
+        height: 80px;
+      }
+      .lds-dual-ring:after {
+        content: " ";
+        display: block;
+        width: 64px;
+        height: 64px;
+        margin: 8px;
+        border-radius: 50%;
+        border: 6px solid rgb(21, 82, 53);
+        border-color: #0069d9 transparent #0069d9 transparent;
+        animation: lds-dual-ring 1.2s linear infinite;
+      }
+      @keyframes lds-dual-ring {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <div class="alert alert-success none" role="alert">
+        Email verified successfully
+      </div>
+      <div class="alert alert-danger none" role="alert"></div>
+    </div>
+    <div class="jumbotron container text-center mt-5">
+      <div class="container">
+        <p class="lead">Click button to verify your email</p>
+      </div>
+      <div class="row">
+        <div class="text-center col-sm-12">
+          <div class="loader none">
+            <div class="lds-dual-ring"></div>
+          </div>
+          <button class="btn btn-primary">
+            Confirm Email
+          </button>
+        </div>
+      </div>
+    </div>
+    <script>
+      const success = document.querySelector(".alert-success");
+      const danger = document.querySelector(".alert-danger");
+      const loader = document.querySelector(".loader");
+      const btn = document.querySelector(".btn-primary");
+      btn.addEventListener("click", () => {
+        const url = window.location.href;
+        let token = url.split("/");
+        token = token[token.length - 1];
+        btn.classList.toggle("none");
+        loader.classList.toggle("none");
+
+        axios
+          .post(`${window.location.origin}/api/v1/users/verifyEmail/` + token)
+          // axios
+          // .post("https://public-auth.herokuapp.com/api/v1/users/verifyEmail/"+token)
+          .then((response) => {
+            console.log(response);
+            loader.classList.toggle("none");
+            success.classList.toggle("none");
+          })
+          .catch((err) => {
+            console.log(err);
+            loader.classList.toggle("none");
+            if (err.response) {
+              danger.innerHTML = err.response.data.message;
+            } else {
+              danger.innerHTML = err.message;
+            }
+
+            // setTimeout(() => {
+            //   danger.classList.toggle("none");
+            // }, 1500);
+            danger.classList.toggle("none");
+          });
+      });
+    </script>
+  </body>
+</html>
