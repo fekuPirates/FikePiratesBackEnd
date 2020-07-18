@@ -1,5 +1,6 @@
 const asyncHandler = require("../middleware/asyncHandler");
-const Post = require("../models/Blog");
+const Blog = require("../models/Blog");
+const News = require("../models/News");
 const ErrorResponse = require("../utils/errorResponse");
 
 //@desc    Get All posts

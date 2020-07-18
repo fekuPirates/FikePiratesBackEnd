@@ -16,9 +16,9 @@ router.put("/:id", protect, authorize("admin", "publisher"), updateblogById);
 router.delete("/:id", protect, authorize("admin"), deleteBlogById);
 router.delete("/:id/comment", protect, onComment);
 router.post("/", protect, authorize("admin", "publisher"), createNewBlog);
-router.get("/:id", getSingleBlog);
 router.get("/recommended", getRecommendedBlog);
 router.get("/blogs", getAllBlogs);
 router.get("/news", getAllNews);
+router.get("/:id", getSingleBlog);
 
 module.exports = router;

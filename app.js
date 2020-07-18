@@ -58,10 +58,15 @@ connectDB();
 const fetchNewsFronNyt = require("./utils/croneOperations");
 //crone request
 if (process.env.NODE_ENV === "production") {
-  cron.schedule("30 6 * * *", () => {
+  cron.schedule("* * */23 * * *", () => {
     fetchNewsFronNyt();
   });
 }
+// if (process.env.NODE_ENV === "development") {
+//   cron.schedule("*/10 * * * * *", () => {
+//     fetchNewsFronNyt();
+//   });
+// }
 
 const auth = require("./routes/auth");
 const user = require("./routes/user");

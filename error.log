@@ -1,0 +1,3 @@
+{"message":"server error","code":500,"route":"/api/v1/blogs/news","date":"18/6/2020 20:31:32","level":"error","service":"user-service"}
+{"message":"Cast to ObjectId failed for value \"news\" at path \"_id\" for model \"Blogs\"","code":500,"route":"/api/v1/blogs/news","date":"18/6/2020 20:32:50","level":"error","service":"user-service"}
+{"message":"Cast to ObjectId failed for value \"news\" at path \"_id\" for model \"Blogs\"","code":500,"route":"/api/v1/blogs/news","date":"18/6/2020 20:35:25","level":"error","service":"user-service"}
