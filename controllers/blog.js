@@ -1,5 +1,6 @@
 const asyncHandler = require("../middleware/asyncHandler");
 const Post = require("../models/Blog");
+const ErrorResponse = require("../utils/errorResponse");
 
 //@desc    Get All posts
 //@route   GET /api/v1/getAllBlogs?category=news
@@ -56,6 +57,12 @@ module.exports.getSingleBlog = asyncHandler(async (req, res, next) => {
     });
   }
   res.status(200).send({ success: true, code: 200, data: blog });
+});
+//@desc    Get  Expert
+//@route   GET /api/v1/posts/:id
+//@access  Public
+module.exports.getRecommendedBlog = asyncHandler(async (req, res, next) => {
+  //TODO: need to implement
 });
 
 //@desc    create post
@@ -147,29 +154,6 @@ module.exports.updateblogById = asyncHandler(async (req, res, next) => {
 //@access  Private
 module.exports.onComment = asyncHandler(async (req, res, next) => {
   let post = await Post.findById(req.params.id);
-  if (!post)
-    return res
-      .status(404)
-      .send({ success: false, code: 404, message: "Post not found" });
-
-  // console.log(typeof post._id
-  // console.log(typeof req.user._id
-  const x = post._id.toString();
-  const y = req.user._id.toString();
-
-  if (x !== y && req.user.role.toString() !== "admin") {
-    return res.status(401).send({
-      success: false,
-      code: 401,
-      message: `${req.user._id} not authorize to update this post`,
-    });
-  }
-
-  post = await Post.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  });
-
-  res.status(200).send({ success: true, code: 200, post });
-  return "hello";
+  if (!post) return next(new ErrorResponse("Post Not found", 404));
+  //TODO: need to finish
 });

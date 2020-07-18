@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const notificationSchema = new mongoose.Schema(
+const blogSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -17,18 +17,19 @@ const notificationSchema = new mongoose.Schema(
     },
     shortDescription: {
       type: String,
-      maxlength: [500, "maximum lenght shuld be 500"],
+      maxlength: [500, "maximum length shuld be 500"],
       required: [true, "Please add a short description"],
     },
     content: {
       type: String,
-      maxlength: [1000000, "maximum lenght shuld be 100000"],
+      maxlength: [1000000, "maximum length shuld be 100000"],
       minlength: [20, "minimum length should be 20"],
       required: [true, "Please add a blog data"],
     },
     createdBy: {
       type: mongoose.Schema.ObjectId,
       ref: "User",
+      default: null,
     },
     region: {
       type: String,
@@ -53,13 +54,13 @@ const notificationSchema = new mongoose.Schema(
   { timestamps: true, toJSON: { virtuals: true }, toObject: { virtuals: true } }
 );
 
-PostSchema.virtual("allComments", {
+blogSchema.virtual("allComments", {
   ref: "Comment", // db name
   localField: "_id",
   foreignField: "commentedOn",
   justOne: false,
 });
 
-const Notification = mongoose.model("Blogs", notificationSchema);
+const Blog = mongoose.model("Blogs", blogSchema);
 
-module.exports = Notification;
+module.exports = Blog;

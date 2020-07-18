@@ -55,19 +55,12 @@ mongoose.set("useUnifiedTopology", true);
 
 //connecting to db
 connectDB();
-
+const fetchNewsFronNyt = require("./utils/croneOperations");
 //crone request
 if (process.env.NODE_ENV === "production") {
-  // cron.schedule(`*/60 * * * * *`, () => {
-  //   axios
-  //     .get("https://public-auth.herokuapp.com/")
-  //     .then((res) => {
-  //       // console.log(res.data);
-  //     })
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // });
+  cron.schedule("30 6 * * *", () => {
+    fetchNewsFronNyt();
+  });
 }
 
 const auth = require("./routes/auth");
@@ -76,12 +69,14 @@ const video = require("./routes/video");
 const blog = require("./routes/blog");
 const notifications = require("./routes/notifications");
 const errorHandler = require("./middleware/error");
+const commonRoutes = require("./routes/common");
 //Routes
 app.use("/api/v1/auth", auth);
 app.use("/api/v1/users", user);
 app.use("/api/v1/youtube", video);
 app.use("/api/v1/blogs", blog);
 app.use("/api/v1/notifications", notifications);
+app.use("/api/v1", commonRoutes);
 app.use("/check", (req, res, next) => {
   res.sendFile(path.join(__dirname, "public/index.html"));
 });
